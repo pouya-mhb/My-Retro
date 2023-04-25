@@ -27,12 +27,12 @@ class Retro (models.Model):
     )
     person = models.ForeignKey(Profile,on_delete=models.CASCADE)
     position = models.CharField(choices=team_choices,max_length=10)
-    Retro_number = models.IntegerField ()
+    Sprint_Number = models.IntegerField ()
     retro_date = models.DateTimeField (default=timezone.now)
 
-    class Meta :
-        def __str__(self) -> str:
-            return self.date_time
+    # class Meta :
+    #     def __str__(self):
+    #         return self.person
 
 class RetroNote (models.Model):
     vote_choices = (
@@ -40,6 +40,7 @@ class RetroNote (models.Model):
         ('Disagree','Disagree')
     )
 
+    retro = models.ForeignKey(Retro,on_delete=models.CASCADE,default=0)
     likes = models.TextField (max_length=250)
     learns = models.TextField(max_length=250)
     lacks = models.TextField(max_length=250)
