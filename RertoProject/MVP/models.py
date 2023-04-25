@@ -15,6 +15,9 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=100,default='user_last_name')
     age = models.IntegerField(default=18)
     gender = models.CharField(choices=gender_choices,max_length=6)
+
+    def __str__(self):
+        return self.first_name
     
 class Retro (models.Model):
     team_choices = (
@@ -25,21 +28,21 @@ class Retro (models.Model):
         ('Sale','Sale'),
         ('Managers','Managers')
     )
-    person = models.ForeignKey(Profile,on_delete=models.CASCADE)
+
     position = models.CharField(choices=team_choices,max_length=10)
     Sprint_Number = models.IntegerField ()
     retro_date = models.DateTimeField (default=timezone.now)
 
-    # class Meta :
-    #     def __str__(self):
-    #         return self.person
+    def __str__(self):
+        return 'sprint '+ str(self.Sprint_Number)
 
 class RetroNote (models.Model):
     vote_choices = (
         ('Agree','Agree'),
         ('Disagree','Disagree')
     )
-
+    
+    person = models.ForeignKey(Profile,on_delete=models.CASCADE,default=0000)
     retro = models.ForeignKey(Retro,on_delete=models.CASCADE,default=0)
     likes = models.TextField (max_length=250)
     learns = models.TextField(max_length=250)
@@ -48,3 +51,6 @@ class RetroNote (models.Model):
     glad = models.TextField(max_length=250)
     sad = models.TextField(max_length=250)
     vote = models.CharField(choices=vote_choices,max_length=10)
+
+    def __str__(self):
+        return str(self.retro)
